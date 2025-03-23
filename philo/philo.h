@@ -6,7 +6,7 @@
 /*   By: abmasnao <abmasnao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 07:57:43 by abmasnao          #+#    #+#             */
-/*   Updated: 2025/03/21 18:13:38 by abmasnao         ###   ########.fr       */
+/*   Updated: 2025/03/23 12:50:15 by abmasnao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,9 @@ typedef struct s_philo
 	int				id;
 	time_t			last_meal;
 	pthread_t		thread;
-	pthread_mutex_t	*r_fork;
-	pthread_mutex_t	*l_fork;
+	int				r_fork;
+	int				l_fork;
+	int				n_meals;
 	struct s_info	*info;
 }				t_philo;
 
@@ -41,14 +42,16 @@ typedef struct s_info
 	time_t			time_to_eat;
 	time_t			time_to_sleep;
 	time_t			start;
-	t_philo			philos[INT_MAX];
-	pthread_mutex_t	forks[INT_MAX];
+	t_philo			philos[200];
+	pthread_mutex_t	forks[200];
 	pthread_mutex_t	print;
-	// pthread_mutex_t	meal;
+	pthread_mutex_t	meal;
 }				t_info;
 
 int		p_error(char *msg);
-int		parsing(int ac, char **av, t_info *info);
+int		parsing(int ac, char **av);
 size_t	ft_strlen(char *str);
+int		mutex_init(t_info *info);
+int		process_data(char **av, t_info *info);
 
 #endif

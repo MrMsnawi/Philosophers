@@ -6,7 +6,7 @@
 /*   By: abmasnao <abmasnao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 06:47:06 by abmasnao          #+#    #+#             */
-/*   Updated: 2025/03/22 09:34:37 by abmasnao         ###   ########.fr       */
+/*   Updated: 2025/03/23 12:44:25 by abmasnao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,19 +93,9 @@ int	is_valid(char *av)
 	return (0);
 }
 
-time_t	get_time(void)
-{
-	struct timeval time;
-
-	gettimeofday(&time, NULL);
-	return (time.tv_sec * 1000 + time.tv_usec / 1000);
-}
 
 int	process_data(char **av, t_info *info)
 {
-	info->start = get_time();
-	if (-1 == pthread_mutex_init(&info->print, NULL))
-		return (1);
 	info->n_philos = ft_atoi(av[1]);
 	info->time_to_die = ft_atoi(av[2]);
 	info->time_to_eat = ft_atoi(av[3]);
@@ -113,22 +103,27 @@ int	process_data(char **av, t_info *info)
 	if (av[5])
 		info->n_meals = ft_atoi(av[5]);
 	else
-		info->n_meals = -1;
+		info->n_meals = 0;
 	return (0);
 }
 
-int	dinner_init(t_info *info)
+int	mutex_init(t_info *info)
 {
 	int	i;
 
-	i = 0;
-	while (i < info->n_philos)
+	pthread_mutex_init(&info->print, NULL);
+	pthread_mutex_init(&info->meal, NULL);
+	i = -1;
+	while (++i < info->n_philos)
 	{
-		if (-1 == pthread_mutex_init(&info->forks[i], NULL))
+		info->philos[i].id = i + 1;
+		info->philos[i].last_meal = 0;
+		pthread_mutex_init(&info->forks[i], NULL);
 	}
+	return (0);
 }
 
-int	parsing(int ac, char **av, t_info *info)
+int	parsing(int ac, char **av)
 {
 	int	i;
 
@@ -144,9 +139,5 @@ int	parsing(int ac, char **av, t_info *info)
 	}
 	else
 		return (p_error(RC"Error: number of arguments!\n"EC));
-	if (process_data(av, info))
-		return (1);
-	if (dinner_init(info))
-		return (1);
 	return (0);
 }
