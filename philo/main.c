@@ -6,7 +6,7 @@
 /*   By: abmasnao <abmasnao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/16 12:30:31 by abmasnao          #+#    #+#             */
-/*   Updated: 2025/03/23 14:23:52 by abmasnao         ###   ########.fr       */
+/*   Updated: 2025/03/23 14:29:33 by abmasnao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,22 +71,25 @@ void	create_philos(t_info *info)
 	t_philo	*philo;
 
 	i = 0;
-	while (i < info->n_philos)
+	while (1)
 	{
-		philo = &info->philos[i];
-		philo->id = i + 1;
-		philo->r_fork = i;
-		philo->l_fork = (i + 1) % info->n_philos;
-		pthread_mutex_lock(&info->meal);
-		philo->n_meals = 0;
-		philo->last_meal = get_time();
-		pthread_mutex_unlock(&info->meal);
-		philo->info = info;
-		if (-1 == pthread_create(&philo->thread, NULL, routine, philo))
-			p_error("Failed to create a philo!\n");
-		if (-1 == pthread_detach(philo->thread))
-			p_error("Failed to detach a philo!\n");
-		i++;
+		while (i < info->n_philos)
+		{
+			philo = &info->philos[i];
+			philo->id = i + 1;
+			philo->r_fork = i;
+			philo->l_fork = (i + 1) % info->n_philos;
+			pthread_mutex_lock(&info->meal);
+			philo->n_meals = 0;
+			philo->last_meal = get_time();
+			pthread_mutex_unlock(&info->meal);
+			philo->info = info;
+			if (-1 == pthread_create(&philo->thread, NULL, routine, philo))
+				p_error("Failed to create a philo!\n");
+			if (-1 == pthread_detach(philo->thread))
+				p_error("Failed to detach a philo!\n");
+			i++;
+		}
 	}
 }
 
@@ -105,6 +108,4 @@ int	main(int ac, char **av)
 		return (1);
 	create_philos(info);
 	pthread_mutex_lock(&info->meal);
-	// info->philos->last_meal = 0;
-	// pthread_mutex_unlock(&info->meal);
 }
