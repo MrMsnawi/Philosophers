@@ -6,11 +6,11 @@
 /*   By: abmasnao <abmasnao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/30 19:09:52 by abmasnao          #+#    #+#             */
-/*   Updated: 2025/04/30 20:01:43 by abmasnao         ###   ########.fr       */
+/*   Updated: 2025/04/30 20:47:18 by abmasnao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <philo.h>
+#include "philo.h"
 
 void	print_usage(void)
 {
