@@ -6,7 +6,7 @@
 /*   By: abmasnao <abmasnao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/30 19:09:52 by abmasnao          #+#    #+#             */
-/*   Updated: 2025/04/30 20:47:18 by abmasnao         ###   ########.fr       */
+/*   Updated: 2025/05/01 21:39:16 by abmasnao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,21 +49,73 @@ int	ft_atoi(char *str)
 	return ((int)(res * sign));
 }
 
-void	parse_data(int ac, char **av)
+int	ft_strlen(char *str)
 {
 	int	i;
 
-	
+	if (!str)
+		return (-1);
+	while (str[i])
+		i++;
+	return (i);
+}
+
+int	error(char *str)
+{
+	if (!str)
+		return ;
+	write(2, str, ft_strlen(str));
+	write(2, "\n", 1);
+	return (1);
+}
+
+int	is_empty(char *str)
+{
+	int	i;
+
+	if (!str)
+		return (error("Somthing went wrong!"));
+	if (!str[0])
+		return (error("Empty argument!"));
+	while (str[i])
+	{
+		if ()
+	}
+}
+
+int	parse_data(int ac, char **av)
+{
+	int	i;
+
+	i = 0;
+	while (++i < ac)
+	{
+		if (is_empty(av[i]) || is_valid(av[i]))
+			return (1);
+	}
+}
+
+void	last_clean(t_philo **philo, t_info **info)
+{
+	if (*philo)
+		free(*philo);
+	if (*info)
+		free(*info);
 }
 
 int main(int ac, char **av)
 {
+	t_philo	*philo;
+	t_info	*info;
+
 	if (ac == 5 || ac == 6)
 	{
-		parse_data(ac, av);
+		if (parse_data(ac, av))
+			return (1);
 		// create_philos();
 		// monitor();
 	}
 	else
 		print_usage();
+	last_clean(&philo, &info);
 }
