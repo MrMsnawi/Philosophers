@@ -6,7 +6,7 @@
 /*   By: abmasnao <abmasnao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/30 19:10:25 by abmasnao          #+#    #+#             */
-/*   Updated: 2025/05/01 20:52:12 by abmasnao         ###   ########.fr       */
+/*   Updated: 2025/05/03 13:25:15 by abmasnao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,26 +16,47 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <pthread.h>
+#include <stdbool.h>
+#include <limits.h>
+#include <unistd.h>
+
+// ********************** structs **********************************
+
+// typedef struct s_philo
+// {
+// 	int	id;
+// 	int	time_to_die;
+// 	int	time_to_eat;
+// 	int	time_to_sleep;
+// 	int	n_meals;
+// 	t_info *info;
+// }				t_philo;
+
+// typedef struct s_info
+// {
+// 	//...
+
+// }				t_info;
+
 
 // *************************** colors ******************************
+
 # define RED "\033[31m"
 # define YELLOW "\033[33m"
 # define RESET "\033[0m"
 
-typedef struct s_philo
-{
-	int	n_philos;
-	int	time_to_die;
-	int	time_to_eat;
-	int	time_to_sleep;
-	int	n_meals;
-	t_info *info;
-}				t_philo;
+// ************************* strings *******************************
 
-typedef struct s_info
-{
-	//...
-	
-}				t_info;
+long	ft_atol(char *str);
+int		ft_strlen(char *str);
+
+// *********************** parser **********************************
+
+int	parse_data(int ac, char **av);
+
+// ************************* error *********************************
+
+void	print_usage(void);
+int		error(char *str);
 
 #endif

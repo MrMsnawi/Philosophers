@@ -1,45 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   error.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: abmasnao <abmasnao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/30 19:09:52 by abmasnao          #+#    #+#             */
-/*   Updated: 2025/05/03 13:20:00 by abmasnao         ###   ########.fr       */
+/*   Created: 2025/05/02 16:10:53 by abmasnao          #+#    #+#             */
+/*   Updated: 2025/05/02 16:40:47 by abmasnao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-// void	last_clean(t_philo **philo, t_info **info)
-// {
-// 	if (*philo)
-// 		free(*philo);
-// 	if (*info)
-// 		free(*info);
-// }
-
-// int	data_init()
-// {
-	
-// }
-
-int main(int ac, char **av)
+void	print_usage(void)
 {
-	// t_philo	*philo;
-	// t_info	*info;
+	printf(RED"bad arguments:\n"RESET);
+	printf(YELLOW"usage: <number_of_philosophers>" 
+		" <time_to_die>"
+		" <time_to_eat>"
+		" <time_to_sleep>"
+		" [number_of_times_each_philosopher_must_eat]\n"RESET);
+}
 
-	if (ac == 5 || ac == 6)
-	{
-		if (parse_data(ac, av))
-			return (1);
-		// if (data_init(av))
-		// 	return (1);
-		// create_philos();
-		// monitor();
-	}
+int	error(char *str)
+{
+	if (!str)
+		write(2, "Somthing went error", 20);
 	else
-		print_usage();
-	// last_clean(&philo, &info);
+		write(2, str, ft_strlen(str));
+	write(2, "\n", 1);
+	return (1);
 }
