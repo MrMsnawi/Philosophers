@@ -6,7 +6,7 @@
 /*   By: abmasnao <abmasnao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/30 19:10:25 by abmasnao          #+#    #+#             */
-/*   Updated: 2025/05/03 13:25:15 by abmasnao         ###   ########.fr       */
+/*   Updated: 2025/05/03 18:18:59 by abmasnao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,22 +22,26 @@
 
 // ********************** structs **********************************
 
-// typedef struct s_philo
-// {
-// 	int	id;
-// 	int	time_to_die;
-// 	int	time_to_eat;
-// 	int	time_to_sleep;
-// 	int	n_meals;
-// 	t_info *info;
-// }				t_philo;
+typedef struct s_philo
+{
+	int			id;
+	int			r_fork;
+	int			l_fork;
+	pthread_t	t;
+	t_info		*info;
+}				t_philo;
 
-// typedef struct s_info
-// {
-// 	//...
-
-// }				t_info;
-
+typedef struct s_info
+{
+	int				n_philos;
+	int				time_to_die;
+	int				time_to_eat;
+	int				time_to_sleep;
+	int				n_meals;
+	int				*philos;
+	pthread_mutex_t	*forks;
+	// pthread_mutex_t	meal;
+}				t_info;
 
 // *************************** colors ******************************
 
