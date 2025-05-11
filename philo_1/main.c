@@ -6,7 +6,7 @@
 /*   By: abmasnao <abmasnao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/30 19:09:52 by abmasnao          #+#    #+#             */
-/*   Updated: 2025/05/11 13:29:38 by abmasnao         ###   ########.fr       */
+/*   Updated: 2025/05/11 21:25:26 by abmasnao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,18 +73,53 @@ int	get_time()
 	
 	if (-1 == gettimeofday(&tv, NULL))
 		return (-1);
-	return (tv.tv_sec);
+	return (tv.tv_sec * 1000);
 }
 
-void	*routine()
+/*
+◦ timestamp_in_ms X has taken a fork
+◦ timestamp_in_ms X is eating
+◦ timestamp_in_ms X is sleeping
+◦ timestamp_in_ms X is thinking
+◦ timestamp_in_ms X died
+*/
+
+void	print_stat(t_philo *philo, int id, char *msg)
 {
+	if (!philo)
+		return ;
+
+	pthread_mutex_lock(&philo->info->print);
+	printf("%d %d %s\n", get_time(), id, msg);
+	pthread_mutex_unlock(&philo->info->print);
+}
+
+void	*routine(void *arg)
+{
+	t_philo	*philo;
+
+	if (!arg)
+		return (NULL);
+	philo = (t_philo *)arg;
+	printf("%d\n", get_time() - philo->last_meal);
+	printf("%d\n\n", philo->info->time_to_die);
+	while (philo->info->time_to_die >= (get_time() - philo->last_meal))
+	{
+		pthread_mutex_lock(&philo->info->forks[philo->r_fork]);
+		print_stat(philo, philo->id, "has taken a fork");
+		pthread_mutex_lock(&philo->info->forks[philo->l_fork]);
+		print_stat(philo, philo->id, "has taken a fork");
+		print_stat(philo, philo->id, "is eating");
+		usleep(50000);
+		pthread_mutex_unlock(&philo->info->forks[philo->r_fork]);
+		pthread_mutex_unlock(&philo->info->forks[philo->l_fork]);
+	}
 	return (NULL);
 }
 
 int	create_philos(t_info *info)
 {
-	int	i;
-
+	int		i;
 	t_philo	*philo;
 
 	if (!info)
@@ -96,14 +131,14 @@ int	create_philos(t_info *info)
 		philo->id = i + 1;
 		philo->r_fork = i;
 		philo->l_fork = (i + 1) % info->n_philos;
-		
+		pthread_mutex_lock(&info->meal);
 		philo->n_meals = 0;
 		philo->last_meal = get_time();
-		
-		if (-1 == pthread_create(&philo->thread, NULL, routine, NULL))
+		pthread_mutex_unlock(&info->meal);
+		if (-1 == pthread_create(&philo->thread, NULL, routine, philo))
 			return (error("pthread_create failed!"));
 		if (-1 == pthread_detach(philo->thread))
-			return ("pthread_detach failed!");
+			return (error("pthread_detach failed!"));
 	}
 	return (0);
 }
@@ -126,6 +161,10 @@ int main(int ac, char **av)
 		if (create_philos(info))
 			return (exit_prtcl(info, 1));
 		// monitor();
+		while (1)
+		{
+			
+		}
 	}
 	else
 		return (print_usage(), exit_prtcl(info, 1));

@@ -6,7 +6,7 @@
 /*   By: abmasnao <abmasnao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/30 19:10:25 by abmasnao          #+#    #+#             */
-/*   Updated: 2025/05/11 13:22:16 by abmasnao         ###   ########.fr       */
+/*   Updated: 2025/05/11 21:24:15 by abmasnao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ typedef struct s_info
 	t_philo			philos[200];
 	pthread_mutex_t	forks[200];
 	pthread_mutex_t	print;
-	// pthread_mutex_t	meal;
+	pthread_mutex_t	meal;
 }				t_info;
 
 // ************************* colors ******************************
