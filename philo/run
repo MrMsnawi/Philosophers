@@ -1,0 +1,6 @@
+make re
+echo
+echo
+echo
+echo
+./philo 10 800 60 60 2> errors

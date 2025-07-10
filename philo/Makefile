@@ -1,12 +1,12 @@
 OBJ_DIR = build
 
-SRC = main.c parsing.c utils.c
+SRC = main.c error.c parser.c strings.c
 
 OBJ = $(SRC:%.c=$(OBJ_DIR)/%.o)
 
 CC = cc
 
-CFLAGS = -Wall -Wextra -Werror -pthread
+CFLAGS = -Wall -Wextra -Werror -pthread -fsanitize=thread
 
 HEADS = philo.h
 

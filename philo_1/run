@@ -1,6 +1,0 @@
-make re
-echo
-echo
-echo
-echo
-./philo 200 800 60 60

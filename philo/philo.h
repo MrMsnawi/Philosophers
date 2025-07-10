@@ -5,53 +5,71 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: abmasnao <abmasnao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/19 07:57:43 by abmasnao          #+#    #+#             */
-/*   Updated: 2025/04/30 18:19:20 by abmasnao         ###   ########.fr       */
+/*   Created: 2025/04/30 19:10:25 by abmasnao          #+#    #+#             */
+/*   Updated: 2025/05/12 10:01:41 by abmasnao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PHILO_H
-# define PHILO_H
+#define PHILO_H
 
-# include <stdio.h>
-# include <stdlib.h>
-# include <pthread.h>
-# include <sys/time.h>
-# include <unistd.h>
-# include <limits.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <pthread.h>
+#include <stdbool.h>
+#include <limits.h>
+#include <unistd.h>
+#include <sys/time.h>
 
-# define RC "\033[31m"
-# define EC "\033[0m"
+// ********************** structs **********************************
+
+typedef struct s_info t_info;
 
 typedef struct s_philo
 {
-	int				id;
-	time_t			last_meal;
-	pthread_t		thread;
-	int				r_fork;
-	int				l_fork;
-	int				n_meals;
-	struct s_info	*info;
+	int			id;
+	int			r_fork;
+	int			l_fork;
+	int			n_meals;
+	int			died;
+	time_t		last_meal;
+	pthread_t	thread;
+	t_info		*info;
 }				t_philo;
 
 typedef struct s_info
 {
-	int				n_meals;
 	int				n_philos;
-	time_t			time_to_die;
-	time_t			time_to_eat;
-	time_t			time_to_sleep;
-	time_t			start;
+	int				time_to_die;
+	int				time_to_eat;
+	int				time_to_sleep;
+	int				n_meals;
 	t_philo			philos[200];
 	pthread_mutex_t	forks[200];
 	pthread_mutex_t	print;
 	pthread_mutex_t	meal;
+	pthread_mutex_t	die;
+	time_t			start;
 }				t_info;
 
-int		p_error(char *msg);
-int		parsing(int ac, char **av);
-size_t	ft_strlen(char *str);
-int		mutex_init(t_info *info);
-int		process_data(char **av, t_info *info);
+// ************************* colors ******************************
+
+# define RED "\033[31m"
+# define YELLOW "\033[33m"
+# define RESET "\033[0m"
+
+// ************************* strings *******************************
+
+long	ft_atol(char *str);
+int		ft_strlen(char *str);
+
+// ************************* parser **********************************
+
+int	parse_data(int ac, char **av);
+
+// ************************* error *********************************
+
+void	print_usage(void);
+int		error(char *str);
 
 #endif
