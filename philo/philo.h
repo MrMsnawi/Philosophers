@@ -6,7 +6,7 @@
 /*   By: abmasnao <abmasnao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/30 19:10:25 by abmasnao          #+#    #+#             */
-/*   Updated: 2025/05/12 10:01:41 by abmasnao         ###   ########.fr       */
+/*   Updated: 2025/07/10 18:13:30 by abmasnao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ typedef struct s_philo
 	int			r_fork;
 	int			l_fork;
 	int			n_meals;
-	int			died;
+	// int			died;
 	time_t		last_meal;
 	pthread_t	thread;
 	t_info		*info;
