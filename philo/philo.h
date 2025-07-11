@@ -6,7 +6,7 @@
 /*   By: abmasnao <abmasnao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/30 19:10:25 by abmasnao          #+#    #+#             */
-/*   Updated: 2025/07/10 18:13:30 by abmasnao         ###   ########.fr       */
+/*   Updated: 2025/07/11 18:02:34 by abmasnao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,6 @@ typedef struct s_philo
 	int			r_fork;
 	int			l_fork;
 	int			n_meals;
-	// int			died;
 	time_t		last_meal;
 	pthread_t	thread;
 	t_info		*info;
@@ -44,6 +43,7 @@ typedef struct s_info
 	int				time_to_eat;
 	int				time_to_sleep;
 	int				n_meals;
+	int				died;
 	t_philo			philos[200];
 	pthread_mutex_t	forks[200];
 	pthread_mutex_t	print;

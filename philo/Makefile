@@ -6,7 +6,8 @@ OBJ = $(SRC:%.c=$(OBJ_DIR)/%.o)
 
 CC = cc
 
-CFLAGS = -Wall -Wextra -Werror -pthread -fsanitize=thread
+CFLAGS = -Wall -Wextra -Werror \
+		-pthread -fsanitize=thread
 
 HEADS = philo.h
 
