@@ -6,7 +6,7 @@
 /*   By: abmasnao <abmasnao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/30 19:09:52 by abmasnao          #+#    #+#             */
-/*   Updated: 2025/07/11 19:55:17 by abmasnao         ###   ########.fr       */
+/*   Updated: 2025/07/12 15:58:59 by abmasnao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -354,7 +354,7 @@ void	ft_usleep(int time)
 
 	curr_t = get_time();
 	while (get_time() < curr_t + time)
-		usleep(500);
+		usleep(time);
 }
 
 void	print_stat(time_t start, t_philo *philo, int id, char *msg)
@@ -377,21 +377,27 @@ void	*routine(void *arg)
 	if (!arg)
 		return (NULL);
 	philo = (t_philo *)arg;
+	philo->info->start = get_time();
 	pthread_mutex_lock(&philo->info->meal);
 	n_meals = philo->info->n_meals;
 	pthread_mutex_unlock(&philo->info->meal);
+	if (philo->info->n_philos == 1)
+	{
+		print_stat(philo->info->start, philo, philo->id, "has taken a fork");
+		ft_usleep(philo->info->time_to_die);
+		print_stat(philo->info->start, philo, philo->id, "died");
+		return (NULL);
+	}
 	if (philo->id % 2)
 		ft_usleep(philo->info->time_to_eat);
 	while (true)
 	{
-		// if (philo->info->n_philos == 1)
-		// 	one_philo(philo);
 		pthread_mutex_lock(&philo->info->die);
 		die = philo->info->died;
 		pthread_mutex_unlock(&philo->info->die);
 		if (die == 1)
 			return (NULL);
-		if (philo->info->time_to_die < get_time() - philo->last_meal)
+		if (philo->info->time_to_die < (get_time() - philo->last_meal))
 		{
 			pthread_mutex_lock(&philo->info->die);
 			philo->info->died = 1;
@@ -416,10 +422,7 @@ void	*routine(void *arg)
 		ft_usleep(philo->info->time_to_sleep);
 		print_stat(philo->info->start, philo, philo->id, "is thinking");
 		if (n_meals && p_meals == n_meals)
-		{
-			fprintf(stderr, "%d\n", p_meals);
 			return (NULL);
-		}
 	}
 	return (NULL);
 }
@@ -431,7 +434,6 @@ int	create_philos(t_info *info)
 	if (!info)
 		return (1);
 	i = -1;
-	info->start = get_time();
 	while (++i < info->n_philos)
 	{
 		info->philos[i].r_fork = i;
@@ -450,7 +452,6 @@ int	create_philos(t_info *info)
 		if (-1 == pthread_join(info->philos[i].thread, NULL))
 			return (error("pthread_join failed!"));
 	}
-	printf("hokay\n");
 	return (0);
 }
 
