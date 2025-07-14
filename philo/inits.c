@@ -6,7 +6,7 @@
 /*   By: abmasnao <abmasnao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/14 16:51:50 by abmasnao          #+#    #+#             */
-/*   Updated: 2025/07/14 18:26:04 by abmasnao         ###   ########.fr       */
+/*   Updated: 2025/07/14 21:24:21 by abmasnao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,8 @@ static int	mutex_init(t_info *info)
 
 	if (-1 == pthread_mutex_init(&info->print, NULL)
 		|| -1 == pthread_mutex_init(&info->die, NULL)
-		|| -1 == pthread_mutex_init(&info->meal, NULL))
+		|| -1 == pthread_mutex_init(&info->meal, NULL)
+		|| -1 == pthread_mutex_init(&info->time, NULL))
 		return (1);
 	i = -1;
 	while (++i < info->n_philos)

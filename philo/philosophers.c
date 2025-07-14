@@ -6,7 +6,7 @@
 /*   By: abmasnao <abmasnao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/14 16:53:21 by abmasnao          #+#    #+#             */
-/*   Updated: 2025/07/14 19:01:03 by abmasnao         ###   ########.fr       */
+/*   Updated: 2025/07/14 21:16:14 by abmasnao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,12 +48,13 @@ static int	routine_init(t_philo *philo, t_routine_vars **r_vars)
 
 static int	end_sim(t_philo *philo, t_routine_vars *r_vars)
 {
+	pthread_mutex_lock(&philo->info->die);
 	if (philo->info->died == 1)
 	{
-		pthread_mutex_unlock(&philo->info->meal);
+		pthread_mutex_unlock(&philo->info->die);
 		return (1);
 	}
-	pthread_mutex_unlock(&philo->info->meal);
+	pthread_mutex_unlock(&philo->info->die);
 	if (ft_mutex_lock(philo->info, &philo->info->meal))
 		return (1);
 	if (r_vars->n_meals && r_vars->p_meals == r_vars->n_meals)

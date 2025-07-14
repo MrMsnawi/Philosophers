@@ -6,7 +6,7 @@
 /*   By: abmasnao <abmasnao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/30 19:10:25 by abmasnao          #+#    #+#             */
-/*   Updated: 2025/07/14 19:19:47 by abmasnao         ###   ########.fr       */
+/*   Updated: 2025/07/14 21:24:02 by abmasnao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,7 @@ typedef struct s_info
 	pthread_mutex_t	print;
 	pthread_mutex_t	meal;
 	pthread_mutex_t	die;
+	pthread_mutex_t time;
 	time_t			start;
 }				t_info;
 
