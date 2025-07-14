@@ -6,7 +6,7 @@
 /*   By: abmasnao <abmasnao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/14 16:51:50 by abmasnao          #+#    #+#             */
-/*   Updated: 2025/07/14 17:09:42 by abmasnao         ###   ########.fr       */
+/*   Updated: 2025/07/14 17:45:30 by abmasnao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,5 +49,7 @@ int	data_init(t_info *info, char **args)
 		info->n_meals = (int)ft_atol(args[5]);
 	else
 		info->n_meals = -1;
+    if (info->n_meals == 0)
+        info->n_meals = -1;
 	return (mutex_init(info));
 }
