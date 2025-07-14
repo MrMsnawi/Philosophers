@@ -6,24 +6,24 @@
 /*   By: abmasnao <abmasnao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/30 19:10:25 by abmasnao          #+#    #+#             */
-/*   Updated: 2025/07/14 11:53:26 by abmasnao         ###   ########.fr       */
+/*   Updated: 2025/07/14 17:25:40 by abmasnao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PHILO_H
-#define PHILO_H
+# define PHILO_H
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <pthread.h>
-#include <stdbool.h>
-#include <limits.h>
-#include <unistd.h>
-#include <sys/time.h>
+# include <stdio.h>
+# include <stdlib.h>
+# include <pthread.h>
+# include <stdbool.h>
+# include <limits.h>
+# include <unistd.h>
+# include <sys/time.h>
 
 // ********************** structs **********************************
 
-typedef struct s_info t_info;
+typedef struct s_info	t_info;
 
 typedef struct s_philo
 {
@@ -52,47 +52,61 @@ typedef struct s_info
 	time_t			start;
 }				t_info;
 
-// ************************* colors ******************************
+typedef struct s_routine_vars
+{
+	int			p_meals;
+	int			n_meals;
+	time_t		tt_die;
+	time_t		last_meal;
+}				t_routine_vars;
+
+// ************************* colors ************************************
 
 # define RED "\033[31m"
 # define YELLOW "\033[33m"
 # define RESET "\033[0m"
 
-// ************************* strings *******************************
+// ************************* parser ************************************
 
-long	ft_atol(char *str);
-int		ft_strlen(char *str);
-int	ft_strcmp(char *s1, char *s2);
+int		parse_data(int ac, char **av);
 
-// ************************* parser **********************************
+// ************************* inits *************************************
 
-int	parse_data(int ac, char **av);
+int		data_init(t_info *info, char **args);
 
-// ************************* monitor *********************************
-
-int	monitor(t_info *info);
-
-// ************************* utils *********************************
+// ************************* utils *************************************
 
 void	safe_free(void *ptr);
 int		exit_prtcl(t_info *info, int ret);
 time_t	get_time(void);
-void	ft_usleep(int time);
+void	ft_usleep(t_info *info, int time);
 void	print_stat(time_t start, t_philo *philo, int id, char *msg);
 
-// ************************* main *********************************
+// ************************* philos_op  ********************************
 
-void	*routine(void *arg);
-
-// *************************** philos_op *********************************
-
+void	*return_null(t_routine_vars *r_vars);
+int		joining(t_info *info);
 int		creating(t_info *info);
 int		create_philos(t_info *info);
-int		joining(t_info *info);
+int		ft_mutex_lock(t_info *info, pthread_mutex_t *mutex);
 
-// ************************* error *********************************
+// ************************* error *************************************
 
 void	print_usage(void);
 int		error(char *str);
+
+// *************************** strings *********************************
+
+long	ft_atol(char *str);
+int		ft_strlen(char *str);
+int		ft_strcmp(char *s1, char *s2);
+
+// ************************** philosophers *****************************
+
+void	*routine(void *arg);
+
+// ************************** monitor **********************************
+
+int		monitor(t_info *info);
 
 #endif

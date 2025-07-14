@@ -6,13 +6,13 @@
 /*   By: abmasnao <abmasnao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/02 16:07:58 by abmasnao          #+#    #+#             */
-/*   Updated: 2025/05/02 16:40:37 by abmasnao         ###   ########.fr       */
+/*   Updated: 2025/07/14 17:13:02 by abmasnao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-static bool	is_whitespace(char c)
+static bool	ft_is_whitespace(char c)
 {
 	return (c == ' ' || (c >= 9 && c <= 13));
 }
@@ -26,7 +26,7 @@ static int	is_empty(char *str)
 	if (!str[0])
 		return (error("Empty argument!"));
 	i = 0;
-	while (str[i] && is_whitespace(str[i]))
+	while (str[i] && ft_is_whitespace(str[i]))
 		i++;
 	if (str[i] != '\0')
 		return (0);
@@ -53,7 +53,7 @@ static int	is_valid(char *str)
 
 static int	is_limit(char *str)
 {
-	long arg;
+	long	arg;
 
 	if (!str)
 		return (error("Somthing went wrong!"));

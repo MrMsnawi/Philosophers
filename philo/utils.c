@@ -6,7 +6,7 @@
 /*   By: abmasnao <abmasnao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/14 11:49:39 by abmasnao          #+#    #+#             */
-/*   Updated: 2025/07/14 13:39:55 by abmasnao         ###   ########.fr       */
+/*   Updated: 2025/07/14 16:55:48 by abmasnao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,19 +35,28 @@ int	exit_prtcl(t_info *info, int ret)
 	return (ret);
 }
 
-time_t	get_time()
+time_t	get_time(void)
 {
-	struct timeval tv;
-	
+	struct timeval	tv;
+
 	if (-1 == gettimeofday(&tv, NULL))
 		return (-1);
 	return (tv.tv_sec * 1000 + tv.tv_usec / 1000);
 }
 
-void	ft_usleep(int time)
+void	ft_usleep(t_info *info, int time)
 {
 	time_t	curr_t;
 
+	if (!info || time < 0)
+		return ;
+	pthread_mutex_lock(&info->die);
+	if (info->died == 1)
+	{
+		pthread_mutex_unlock(&info->die);
+		return ;
+	}
+	pthread_mutex_unlock(&info->die);
 	curr_t = get_time();
 	while (get_time() < curr_t + time)
 		usleep(time);
@@ -55,15 +64,15 @@ void	ft_usleep(int time)
 
 void	print_stat(time_t start, t_philo *philo, int id, char *msg)
 {
-    int died;
+	int	died;
 
 	if (!philo)
 		return ;
-    pthread_mutex_lock(&philo->info->die);
-    died = philo->info->died;
-    pthread_mutex_unlock(&philo->info->die);
+	pthread_mutex_lock(&philo->info->die);
+	died = philo->info->died;
+	pthread_mutex_unlock(&philo->info->die);
 	if (ft_strcmp(msg, "died") != 0 && died == 1)
-        return ;
+		return ;
 	pthread_mutex_lock(&philo->info->print);
 	printf("%ld %d %s\n", get_time() - start, id, msg);
 	pthread_mutex_unlock(&philo->info->print);

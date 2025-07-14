@@ -1,7 +1,0 @@
-make re
-echo
-echo
-echo
-echo
-./philo 10 600 60 60 2 2> errors
-

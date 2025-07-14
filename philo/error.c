@@ -6,7 +6,7 @@
 /*   By: abmasnao <abmasnao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/02 16:10:53 by abmasnao          #+#    #+#             */
-/*   Updated: 2025/05/02 16:40:47 by abmasnao         ###   ########.fr       */
+/*   Updated: 2025/07/14 16:38:47 by abmasnao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 void	print_usage(void)
 {
 	printf(RED"bad arguments:\n"RESET);
-	printf(YELLOW"usage: <number_of_philosophers>" 
+	printf(YELLOW"usage: <number_of_philosophers>"
 		" <time_to_die>"
 		" <time_to_eat>"
 		" <time_to_sleep>"
