@@ -6,7 +6,7 @@
 /*   By: abmasnao <abmasnao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/30 19:09:52 by abmasnao          #+#    #+#             */
-/*   Updated: 2025/07/12 17:10:25 by abmasnao         ###   ########.fr       */
+/*   Updated: 2025/07/13 10:51:40 by abmasnao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,6 @@ int	exit_prtcl(t_info *info, int ret)
 	int	i;
 
 	pthread_mutex_destroy(&info->print);
-	pthread_mutex_destroy(&info->die);
 	i = -1;
 	while (++i < info->n_philos)
 		pthread_mutex_destroy(&info->forks[i]);
@@ -38,8 +37,7 @@ int	mutex_init(t_info *info)
 {
 	int	i;
 	
-	if (-1 == pthread_mutex_init(&info->print, NULL)
-		|| -1 == pthread_mutex_init(&info->die, NULL))
+	if (-1 == pthread_mutex_init(&info->print, NULL))
 		return (1);
 	i = -1;
 	while (++i < info->n_philos)
@@ -100,34 +98,36 @@ void	print_stat(time_t start, t_philo *philo, int id, char *msg)
 	pthread_mutex_unlock(&philo->info->print);
 }
 
+int	one_philo(t_philo *philo)
+{	
+	if (philo->info->n_philos == 1)
+	{
+		print_stat(philo->info->start, philo, philo->id, "has taken a fork");
+		ft_usleep(philo->info->time_to_die);
+		return (1);
+	}
+	return (0);
+}
+
 void	*routine(void *arg)
 {
 	t_philo	*philo;
 	int p_meals;
-	// int	die;
 	int n_meals;
 
 	if (!arg)
 		return (NULL);
 	philo = (t_philo *)arg;
+	philo->info->start = get_time();
 	pthread_mutex_lock(&philo->info->meal);
 	n_meals = philo->info->n_meals;
 	pthread_mutex_unlock(&philo->info->meal);
-	if (philo->info->n_philos == 1)
-	{
-		print_stat(philo->info->start, philo, philo->id, "has taken a fork");
-		ft_usleep(philo->info->time_to_die);
+	if (one_philo(philo))
 		return (NULL);
-	}
 	if (philo->id % 2)
 		ft_usleep(philo->info->time_to_eat);
 	while (philo->info->time_to_die >= (get_time() - philo->last_meal))
 	{
-		// pthread_mutex_lock(&philo->info->die);
-		// die = philo->info->died;
-		// pthread_mutex_unlock(&philo->info->die);
-		// if (die == 1)
-		// 	return (NULL);
 		pthread_mutex_lock(&philo->info->forks[philo->r_fork]);
 		print_stat(philo->info->start, philo, philo->id, "has taken a fork");
 		pthread_mutex_lock(&philo->info->forks[philo->l_fork]);
@@ -172,16 +172,24 @@ int	check_n_meals(t_info *info)
 
 int	monitor(t_info *info)
 {
-	int	i;
+	int		i;
+	int		n_meals;
+	time_t	l_meal;
 
+	pthread_mutex_lock(&info->meal);
+	n_meals = info->n_meals;
+	pthread_mutex_unlock(&info->meal);
 	while (1)
 	{
-		if (info->n_meals != -1 && check_n_meals(info) == 1)
+		if (n_meals != -1 && check_n_meals(info) == 1)
 			return (1);
 		i = 0;
 		while (i < info->n_philos)
 		{
-			if (info->time_to_die < (get_time() - info->philos[i].last_meal))
+			pthread_mutex_lock(&info->meal);
+			l_meal = get_time() - info->philos[i].last_meal;
+			pthread_mutex_unlock(&info->meal);
+			if (info->time_to_die < l_meal)
 			{
 				print_stat(info->start, &info->philos[i], info->philos[i].id, "died");
 				return (1);
@@ -192,14 +200,28 @@ int	monitor(t_info *info)
 	return (0);
 }
 
+int	joining(t_info *info)
+{
+	int	i;
+
+	i = -1;
+	while (++i < info->n_philos)
+	{
+		if (-1 == pthread_join(info->philos[i].thread, NULL))
+			return (error("pthread_join failed!"));
+	}
+	return (0);
+}
+
 int	create_philos(t_info *info)
 {
 	int		i;
+	int		ret;
 
 	if (!info)
 		return (1);
+	ret = 0;
 	i = -1;
-	info->start = get_time();
 	while (++i < info->n_philos)
 	{
 		info->philos[i].r_fork = i;
@@ -213,14 +235,10 @@ int	create_philos(t_info *info)
 			return (error("pthread_create failed!"));
 	}
 	if (monitor(info))
+		ret = 1;
+	if (joining(info))
 		return (1);
-	i = -1;
-	while (++i < info->n_philos)
-	{
-		if (-1 == pthread_join(info->philos[i].thread, NULL))
-			return (error("pthread_join failed!"));
-	}
-	return (0);
+	return (ret);
 }
 
 int main(int ac, char **av)
