@@ -6,7 +6,7 @@
 /*   By: abmasnao <abmasnao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/30 19:10:25 by abmasnao          #+#    #+#             */
-/*   Updated: 2025/07/14 17:25:40 by abmasnao         ###   ########.fr       */
+/*   Updated: 2025/07/14 19:19:47 by abmasnao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,8 +79,8 @@ int		data_init(t_info *info, char **args);
 void	safe_free(void *ptr);
 int		exit_prtcl(t_info *info, int ret);
 time_t	get_time(void);
-void	ft_usleep(t_info *info, int time);
-void	print_stat(time_t start, t_philo *philo, int id, char *msg);
+int		ft_usleep(t_info *info, int time);
+int		print_stat(time_t start, t_philo *philo, int id, char *msg);
 
 // ************************* philos_op  ********************************
 
@@ -108,5 +108,7 @@ void	*routine(void *arg);
 // ************************** monitor **********************************
 
 int		monitor(t_info *info);
+
+// *********************************************************************
 
 #endif

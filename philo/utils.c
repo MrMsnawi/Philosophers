@@ -6,7 +6,7 @@
 /*   By: abmasnao <abmasnao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/14 11:49:39 by abmasnao          #+#    #+#             */
-/*   Updated: 2025/07/14 16:55:48 by abmasnao         ###   ########.fr       */
+/*   Updated: 2025/07/14 19:50:55 by abmasnao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,36 +44,48 @@ time_t	get_time(void)
 	return (tv.tv_sec * 1000 + tv.tv_usec / 1000);
 }
 
-void	ft_usleep(t_info *info, int time)
+int	ft_usleep(t_info *info, int time)
 {
 	time_t	curr_t;
 
-	if (!info || time < 0)
-		return ;
 	pthread_mutex_lock(&info->die);
 	if (info->died == 1)
 	{
 		pthread_mutex_unlock(&info->die);
-		return ;
+		return (1);
 	}
 	pthread_mutex_unlock(&info->die);
+	pthread_mutex_lock(&info->print);
 	curr_t = get_time();
+	pthread_mutex_unlock(&info->print);
 	while (get_time() < curr_t + time)
+	{
+		pthread_mutex_lock(&info->die);
+		if (info->died == 1)
+		{
+			pthread_mutex_unlock(&info->die);
+			return (1);
+		}
+		pthread_mutex_unlock(&info->die);
 		usleep(time);
+	}
+	return (0);
 }
 
-void	print_stat(time_t start, t_philo *philo, int id, char *msg)
+int	print_stat(time_t start, t_philo *philo, int id, char *msg)
 {
-	int	died;
-
 	if (!philo)
-		return ;
-	pthread_mutex_lock(&philo->info->die);
-	died = philo->info->died;
-	pthread_mutex_unlock(&philo->info->die);
-	if (ft_strcmp(msg, "died") != 0 && died == 1)
-		return ;
+		return (1);
 	pthread_mutex_lock(&philo->info->print);
+	pthread_mutex_lock(&philo->info->die);
+	if (philo->info->died == 1)
+	{
+		pthread_mutex_unlock(&philo->info->die);
+		pthread_mutex_unlock(&philo->info->print);
+		return (1);
+	}
+	pthread_mutex_unlock(&philo->info->die);
 	printf("%ld %d %s\n", get_time() - start, id, msg);
 	pthread_mutex_unlock(&philo->info->print);
+	return (0);
 }

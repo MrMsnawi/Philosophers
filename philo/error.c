@@ -6,7 +6,7 @@
 /*   By: abmasnao <abmasnao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/02 16:10:53 by abmasnao          #+#    #+#             */
-/*   Updated: 2025/07/14 16:38:47 by abmasnao         ###   ########.fr       */
+/*   Updated: 2025/07/14 18:29:35 by abmasnao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,11 @@ int	error(char *str)
 	if (!str)
 		write(2, "Somthing went error", 20);
 	else
+	{
+		write(2, RED, 5);
 		write(2, str, ft_strlen(str));
+		write(2, RESET, 4);
+	}
 	write(2, "\n", 1);
 	return (1);
 }

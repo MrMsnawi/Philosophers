@@ -6,7 +6,7 @@
 /*   By: abmasnao <abmasnao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/14 16:51:50 by abmasnao          #+#    #+#             */
-/*   Updated: 2025/07/14 17:45:30 by abmasnao         ###   ########.fr       */
+/*   Updated: 2025/07/14 18:26:04 by abmasnao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,8 @@ int	data_init(t_info *info, char **args)
 	info->n_philos = (int)ft_atol(args[1]);
 	if (info->n_philos > 200)
 		return (error("Number of philosophers greater that 200!"));
+	if (info->n_philos <= 0)
+		return (error("Number of philosophers must be greater than 0!"));
 	info->time_to_die = (int)ft_atol(args[2]);
 	info->time_to_eat = (int)ft_atol(args[3]);
 	info->time_to_sleep = (int)ft_atol(args[4]);
@@ -49,7 +51,7 @@ int	data_init(t_info *info, char **args)
 		info->n_meals = (int)ft_atol(args[5]);
 	else
 		info->n_meals = -1;
-    if (info->n_meals == 0)
-        info->n_meals = -1;
+	if (info->n_meals == 0)
+		info->n_meals = -1;
 	return (mutex_init(info));
 }
