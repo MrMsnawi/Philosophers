@@ -1,6 +1,6 @@
 OBJ_DIR = build
 
-SRC = main.c error.c parser.c strings.c
+SRC = main.c error.c parser.c strings.c monitor.c utils.c philos_op.c
 
 OBJ = $(SRC:%.c=$(OBJ_DIR)/%.o)
 

@@ -6,7 +6,7 @@
 /*   By: abmasnao <abmasnao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/30 19:10:25 by abmasnao          #+#    #+#             */
-/*   Updated: 2025/07/11 18:02:34 by abmasnao         ###   ########.fr       */
+/*   Updated: 2025/07/14 11:53:26 by abmasnao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,10 +62,33 @@ typedef struct s_info
 
 long	ft_atol(char *str);
 int		ft_strlen(char *str);
+int	ft_strcmp(char *s1, char *s2);
 
 // ************************* parser **********************************
 
 int	parse_data(int ac, char **av);
+
+// ************************* monitor *********************************
+
+int	monitor(t_info *info);
+
+// ************************* utils *********************************
+
+void	safe_free(void *ptr);
+int		exit_prtcl(t_info *info, int ret);
+time_t	get_time(void);
+void	ft_usleep(int time);
+void	print_stat(time_t start, t_philo *philo, int id, char *msg);
+
+// ************************* main *********************************
+
+void	*routine(void *arg);
+
+// *************************** philos_op *********************************
+
+int		creating(t_info *info);
+int		create_philos(t_info *info);
+int		joining(t_info *info);
 
 // ************************* error *********************************
 
