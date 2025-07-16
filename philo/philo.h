@@ -6,7 +6,7 @@
 /*   By: abmasnao <abmasnao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/30 19:10:25 by abmasnao          #+#    #+#             */
-/*   Updated: 2025/07/14 21:24:02 by abmasnao         ###   ########.fr       */
+/*   Updated: 2025/07/15 11:32:06 by abmasnao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,17 +49,9 @@ typedef struct s_info
 	pthread_mutex_t	print;
 	pthread_mutex_t	meal;
 	pthread_mutex_t	die;
-	pthread_mutex_t time;
+	pthread_mutex_t	time;
 	time_t			start;
 }				t_info;
-
-typedef struct s_routine_vars
-{
-	int			p_meals;
-	int			n_meals;
-	time_t		tt_die;
-	time_t		last_meal;
-}				t_routine_vars;
 
 // ************************* colors ************************************
 
@@ -81,11 +73,10 @@ void	safe_free(void *ptr);
 int		exit_prtcl(t_info *info, int ret);
 time_t	get_time(void);
 int		ft_usleep(t_info *info, int time);
-int		print_stat(time_t start, t_philo *philo, int id, char *msg);
+int		print_stat(t_philo *philo, char *msg);
 
 // ************************* philos_op  ********************************
 
-void	*return_null(t_routine_vars *r_vars);
 int		joining(t_info *info);
 int		creating(t_info *info);
 int		create_philos(t_info *info);
@@ -111,5 +102,6 @@ void	*routine(void *arg);
 int		monitor(t_info *info);
 
 // *********************************************************************
+int		check_die(t_info *info);
 
 #endif

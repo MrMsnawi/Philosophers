@@ -6,29 +6,55 @@
 /*   By: abmasnao <abmasnao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/14 16:51:50 by abmasnao          #+#    #+#             */
-/*   Updated: 2025/07/14 21:24:21 by abmasnao         ###   ########.fr       */
+/*   Updated: 2025/07/15 11:26:09 by abmasnao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-static int	mutex_init(t_info *info)
+static int	mutex_forks(t_info *info)
 {
 	int	i;
+	int	j;
 
-	if (-1 == pthread_mutex_init(&info->print, NULL)
-		|| -1 == pthread_mutex_init(&info->die, NULL)
-		|| -1 == pthread_mutex_init(&info->meal, NULL)
-		|| -1 == pthread_mutex_init(&info->time, NULL))
-		return (1);
 	i = -1;
 	while (++i < info->n_philos)
 	{
-		info->philos[i].id = i + 1;
-		info->philos[i].last_meal = 0;
 		if (-1 == pthread_mutex_init(&info->forks[i], NULL))
+		{
+			j = i - 1;
+			while (j >= 0)
+				pthread_mutex_destroy(&info->forks[j--]);
 			return (1);
+		}
 	}
+	return (0);
+}
+
+static int	mutex_init(t_info *info)
+{
+	if (-1 == pthread_mutex_init(&info->print, NULL))
+		return (1);
+	if (-1 == pthread_mutex_init(&info->die, NULL))
+	{
+		pthread_mutex_destroy(&info->print);
+		return (1);
+	}
+	if (-1 == pthread_mutex_init(&info->meal, NULL))
+	{
+		pthread_mutex_destroy(&info->print);
+		pthread_mutex_destroy(&info->die);
+		return (1);
+	}
+	if (-1 == pthread_mutex_init(&info->time, NULL))
+	{
+		pthread_mutex_destroy(&info->print);
+		pthread_mutex_destroy(&info->die);
+		pthread_mutex_destroy(&info->time);
+		return (1);
+	}
+	if (mutex_forks(info))
+		return (1);
 	return (0);
 }
 
@@ -53,6 +79,6 @@ int	data_init(t_info *info, char **args)
 	else
 		info->n_meals = -1;
 	if (info->n_meals == 0)
-		info->n_meals = -1;
+		return (error("Number of meals must be greater than 0!"));
 	return (mutex_init(info));
 }

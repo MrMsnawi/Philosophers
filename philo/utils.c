@@ -6,7 +6,7 @@
 /*   By: abmasnao <abmasnao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/14 11:49:39 by abmasnao          #+#    #+#             */
-/*   Updated: 2025/07/14 21:46:14 by abmasnao         ###   ########.fr       */
+/*   Updated: 2025/07/15 11:33:32 by abmasnao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,44 +49,30 @@ int	ft_usleep(t_info *info, int time)
 {
 	time_t	curr_t;
 
-	// pthread_mutex_lock(&info->die);
-	// if (info->died == 1)
-	// {
-	// 	pthread_mutex_unlock(&info->time);
-	// 	pthread_mutex_unlock(&info->die);
-	// 	return (1);
-	// }
-	// pthread_mutex_unlock(&info->die);
-	pthread_mutex_lock(&info->time);
+	if (check_die(info))
+		return (1);
 	curr_t = get_time();
 	while (get_time() < curr_t + time)
 	{
-		pthread_mutex_lock(&info->die);
-		if (info->died == 1)
-		{
-			pthread_mutex_unlock(&info->time);
-			pthread_mutex_unlock(&info->die);
+		if (check_die(info))
 			return (1);
-		}
-		pthread_mutex_unlock(&info->die);
 		usleep(time);
 	}
-	pthread_mutex_unlock(&info->time);
 	return (0);
 }
 
-int	print_stat(time_t start, t_philo *philo, int id, char *msg)
+int	print_stat(t_philo *philo, char *msg)
 {
+	static int	died;
+
 	pthread_mutex_lock(&philo->info->print);
-	pthread_mutex_lock(&philo->info->die);
-	if (philo->info->died == 1)
+	if (ft_strcmp(msg, "died") == 0)
 	{
-		pthread_mutex_unlock(&philo->info->die);
-		pthread_mutex_unlock(&philo->info->print);
-		return (1);
+		printf("%ld %d %s\n", get_time() - philo->info->start, philo->id, msg);
+		died = 1;
 	}
-	pthread_mutex_unlock(&philo->info->die);
-	printf("%ld %d %s\n", get_time() - start, id, msg);
+	if (died == 0)
+		printf("%ld %d %s\n", get_time() - philo->info->start, philo->id, msg);
 	pthread_mutex_unlock(&philo->info->print);
 	return (0);
 }

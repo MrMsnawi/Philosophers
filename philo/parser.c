@@ -6,7 +6,7 @@
 /*   By: abmasnao <abmasnao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/02 16:07:58 by abmasnao          #+#    #+#             */
-/*   Updated: 2025/07/14 17:13:02 by abmasnao         ###   ########.fr       */
+/*   Updated: 2025/07/15 20:56:04 by abmasnao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ static int	is_valid(char *str)
 		i++;
 	while (str[i])
 	{
-		if (!((str[i] >= '0' && str[i] <= '9') || str[i] == '+'))
+		if (!(str[i] >= '0' && str[i] <= '9'))
 			return (error("Invalid argument!"));
 		i++;
 	}
