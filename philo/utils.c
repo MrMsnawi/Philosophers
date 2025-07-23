@@ -6,20 +6,11 @@
 /*   By: abmasnao <abmasnao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/14 11:49:39 by abmasnao          #+#    #+#             */
-/*   Updated: 2025/07/15 11:33:32 by abmasnao         ###   ########.fr       */
+/*   Updated: 2025/07/23 21:45:42 by abmasnao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
-
-void	safe_free(void *ptr)
-{
-	if (ptr)
-	{
-		free(ptr);
-		ptr = NULL;
-	}
-}
 
 int	exit_prtcl(t_info *info, int ret)
 {
@@ -32,7 +23,6 @@ int	exit_prtcl(t_info *info, int ret)
 	i = -1;
 	while (++i < info->n_philos)
 		pthread_mutex_destroy(&info->forks[i]);
-	safe_free(info);
 	return (ret);
 }
 

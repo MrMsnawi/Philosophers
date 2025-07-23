@@ -6,7 +6,7 @@
 /*   By: abmasnao <abmasnao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/14 11:51:13 by abmasnao          #+#    #+#             */
-/*   Updated: 2025/07/15 11:33:39 by abmasnao         ###   ########.fr       */
+/*   Updated: 2025/07/23 21:37:14 by abmasnao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,8 @@ int	ft_mutex_lock(t_info *info, pthread_mutex_t *mutex)
 {
 	if (check_die(info))
 		return (1);
-	pthread_mutex_lock(mutex);
+	if (pthread_mutex_lock(mutex) != 0)
+		return (1);
 	return (EXIT_SUCCESS);
 }
 

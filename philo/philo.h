@@ -6,7 +6,7 @@
 /*   By: abmasnao <abmasnao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/30 19:10:25 by abmasnao          #+#    #+#             */
-/*   Updated: 2025/07/15 11:32:06 by abmasnao         ###   ########.fr       */
+/*   Updated: 2025/07/23 21:44:45 by abmasnao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@
 # include <limits.h>
 # include <unistd.h>
 # include <sys/time.h>
+# include <string.h>
 
 // ********************** structs **********************************
 
@@ -69,7 +70,6 @@ int		data_init(t_info *info, char **args);
 
 // ************************* utils *************************************
 
-void	safe_free(void *ptr);
 int		exit_prtcl(t_info *info, int ret);
 time_t	get_time(void);
 int		ft_usleep(t_info *info, int time);
@@ -81,6 +81,7 @@ int		joining(t_info *info);
 int		creating(t_info *info);
 int		create_philos(t_info *info);
 int		ft_mutex_lock(t_info *info, pthread_mutex_t *mutex);
+int		check_die(t_info *info);
 
 // ************************* error *************************************
 
@@ -102,6 +103,5 @@ void	*routine(void *arg);
 int		monitor(t_info *info);
 
 // *********************************************************************
-int		check_die(t_info *info);
 
 #endif

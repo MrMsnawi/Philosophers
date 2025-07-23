@@ -6,7 +6,7 @@
 /*   By: abmasnao <abmasnao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/14 16:53:21 by abmasnao          #+#    #+#             */
-/*   Updated: 2025/07/16 08:16:25 by abmasnao         ###   ########.fr       */
+/*   Updated: 2025/07/23 21:45:56 by abmasnao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,10 @@ static int	one_philo(t_philo *philo)
 {
 	if (philo->info->n_philos == 1)
 	{
+		pthread_mutex_lock(&philo->info->forks[philo->r_fork]);
 		print_stat(philo, "has taken a fork");
 		ft_usleep(philo->info, philo->info->time_to_die);
+		pthread_mutex_unlock(&philo->info->forks[philo->r_fork]);
 		return (1);
 	}
 	return (0);
