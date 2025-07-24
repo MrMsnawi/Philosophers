@@ -6,7 +6,7 @@
 /*   By: abmasnao <abmasnao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/14 16:51:50 by abmasnao          #+#    #+#             */
-/*   Updated: 2025/07/23 21:36:34 by abmasnao         ###   ########.fr       */
+/*   Updated: 2025/07/24 17:11:39 by abmasnao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,13 +44,6 @@ static int	mutex_init(t_info *info)
 	{
 		pthread_mutex_destroy(&info->print);
 		pthread_mutex_destroy(&info->die);
-		return (1);
-	}
-	if (-1 == pthread_mutex_init(&info->time, NULL))
-	{
-		pthread_mutex_destroy(&info->print);
-		pthread_mutex_destroy(&info->die);
-		pthread_mutex_destroy(&info->time);
 		return (1);
 	}
 	if (mutex_forks(info))

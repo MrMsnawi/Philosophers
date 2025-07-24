@@ -6,7 +6,7 @@
 /*   By: abmasnao <abmasnao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/14 11:51:13 by abmasnao          #+#    #+#             */
-/*   Updated: 2025/07/23 21:37:14 by abmasnao         ###   ########.fr       */
+/*   Updated: 2025/07/24 13:32:42 by abmasnao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,10 @@ int	creating(t_info *info)
 	{
 		if (-1 == pthread_create(&info->philos[i].thread, \
 		NULL, routine, &info->philos[i]))
+		{
+			info->n_philos = i;
 			return (error("pthread_create failed!"));
+		}
 		i++;
 	}
 	return (0);

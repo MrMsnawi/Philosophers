@@ -6,13 +6,13 @@
 /*   By: abmasnao <abmasnao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/02 16:10:53 by abmasnao          #+#    #+#             */
-/*   Updated: 2025/07/14 18:29:35 by abmasnao         ###   ########.fr       */
+/*   Updated: 2025/07/24 17:53:50 by abmasnao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-void	print_usage(void)
+int	print_usage(void)
 {
 	printf(RED"bad arguments:\n"RESET);
 	printf(YELLOW"usage: <number_of_philosophers>"
@@ -20,6 +20,7 @@ void	print_usage(void)
 		" <time_to_eat>"
 		" <time_to_sleep>"
 		" [number_of_times_each_philosopher_must_eat]\n"RESET);
+	return (1);
 }
 
 int	error(char *str)

@@ -6,7 +6,7 @@
 /*   By: abmasnao <abmasnao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/14 11:49:39 by abmasnao          #+#    #+#             */
-/*   Updated: 2025/07/23 21:45:42 by abmasnao         ###   ########.fr       */
+/*   Updated: 2025/07/24 16:58:16 by abmasnao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,6 @@ int	exit_prtcl(t_info *info, int ret)
 	pthread_mutex_destroy(&info->print);
 	pthread_mutex_destroy(&info->die);
 	pthread_mutex_destroy(&info->meal);
-	pthread_mutex_destroy(&info->time);
 	i = -1;
 	while (++i < info->n_philos)
 		pthread_mutex_destroy(&info->forks[i]);

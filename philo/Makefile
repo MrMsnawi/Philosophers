@@ -13,6 +13,7 @@ OBJ = $(SRC:%.c=%.o)
 CC = cc
 
 CFLAGS = -Wall -Wextra -Werror
+
 NAME = philo
 
 all : $(NAME)
