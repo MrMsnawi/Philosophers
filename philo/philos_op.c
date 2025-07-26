@@ -6,7 +6,7 @@
 /*   By: abmasnao <abmasnao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/14 11:51:13 by abmasnao          #+#    #+#             */
-/*   Updated: 2025/07/24 13:32:42 by abmasnao         ###   ########.fr       */
+/*   Updated: 2025/07/26 09:51:42 by abmasnao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,11 +63,11 @@ int	create_philos(t_info *info)
 		info->philos[i].info = info;
 	}
 	if (creating(info))
-		return (1);
+		ret = 1;
 	if (monitor(info))
 		ret = 1;
 	if (joining(info))
-		return (1);
+		ret = 1;
 	return (ret);
 }
 

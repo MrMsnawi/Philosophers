@@ -6,7 +6,7 @@
 /*   By: abmasnao <abmasnao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/14 11:49:39 by abmasnao          #+#    #+#             */
-/*   Updated: 2025/07/24 16:58:16 by abmasnao         ###   ########.fr       */
+/*   Updated: 2025/07/26 17:43:19 by abmasnao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,12 +41,8 @@ int	ft_usleep(t_info *info, int time)
 	if (check_die(info))
 		return (1);
 	curr_t = get_time();
-	while (get_time() < curr_t + time)
-	{
-		if (check_die(info))
-			return (1);
-		usleep(time);
-	}
+	while ((get_time() < curr_t + time) && (check_die(info) != 1))
+		usleep(500);
 	return (0);
 }
 
